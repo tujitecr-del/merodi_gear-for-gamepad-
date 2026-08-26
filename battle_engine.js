@@ -842,11 +842,17 @@ window.UpdateManager = {
         }
     },
 
-      shootEnemyWeapon: function(weaponType) {
-        const p = window.player;
-        const e = window.enemy;
-        const config = window.WEAPON_CONFIG[weaponType];
-        if (!p || !e || !config) return;
+shootEnemyWeapon: function(weaponType) {
+         const p = window.player;
+         const e = window.enemy;
+         
+         // 武器タイプが不明な場合の安全対策（デフォルトを "ビームガン" にする）
+         const safeWeaponType = (window.WEAPON_CONFIG && window.WEAPON_CONFIG[weaponType]) ? weaponType : "ビームガン";
+         const config = (window.WEAPON_CONFIG && window.WEAPON_CONFIG[safeWeaponType]) 
+             ? window.WEAPON_CONFIG[safeWeaponType] 
+             : { speed: 8, range: 300, color: "cyan" };
+
+         if (!p || !e || !config) return;
 
         // 1. それぞれのスケール（大きさ）を取得
         const pScale = (p.stats && p.stats.scale) ? p.stats.scale : 1.0;
