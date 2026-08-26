@@ -846,8 +846,14 @@ shootEnemyWeapon: function(weaponType) {
          const p = window.player;
          const e = window.enemy;
          
-         // 武器タイプが不明な場合の安全対策（デフォルトを "ビームガン" にする）
-         const safeWeaponType = (window.WEAPON_CONFIG && window.WEAPON_CONFIG[weaponType]) ? weaponType : "ビームガン";
+         // 1. 英語などの未知の武器名が来たら日本語に変換する
+         let targetWeapon = weaponType;
+         if (targetWeapon === "beamgun") targetWeapon = "ビームガン";
+         if (targetWeapon === "machinegun") targetWeapon = "マシンガン";
+         if (targetWeapon === "missile") targetWeapon = "ミサイル";
+
+         // 2. 変換後の名前でWEAPON_CONFIGにあるかチェックし、なければデフォルトにする
+         const safeWeaponType = (window.WEAPON_CONFIG && window.WEAPON_CONFIG[targetWeapon]) ? targetWeapon : "ビームガン";
          const config = (window.WEAPON_CONFIG && window.WEAPON_CONFIG[safeWeaponType]) 
              ? window.WEAPON_CONFIG[safeWeaponType] 
              : { speed: 8, range: 300, color: "cyan" };
