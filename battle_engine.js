@@ -1243,21 +1243,20 @@ window.EnemyAI = {
                 enemy.state = "FAR_ATTACKING";
                 if (dist < 150) enemy.x -= enemy.lastDir * 1.0 * spd;
 
-               // 敵の弾を発射する処理
+// 敵の弾を発射する処理
                 if (enemy.attackCooldown <= 0) {
-                    // 1. 武器タイプを安全に取得（英語名が来たら日本語に変換）
+                    // 1. 英語名対策を含めて安全に武器タイプを取得
                     let rawWeapon = (enemy.stats && enemy.stats.weapon) ? enemy.stats.weapon : "ビームガン";
                     if (rawWeapon === "beamgun") rawWeapon = "ビームガン";
                     if (rawWeapon === "machinegun") rawWeapon = "マシンガン";
                     if (rawWeapon === "missile") rawWeapon = "ミサイル";
-                    
                     const weaponType = rawWeapon;
 
-                    // 2. WEAPON_CONFIGから安全に取得する（なければデフォルト値を使う）
-                    const defaultWeaponConfig = { speed: 8, range: 300, color: "cyan" };
+                    // 2. WEAPON_CONFIGから安全に取得（なければデフォルト値）
+                    const defaultConfig = { speed: 8, range: 300, color: "cyan" };
                     const config = (window.WEAPON_CONFIG && window.WEAPON_CONFIG[weaponType]) 
                         ? window.WEAPON_CONFIG[weaponType] 
-                        : defaultWeaponConfig;
+                        : defaultConfig;
                     
                     const eCenterY = enemy.y - (40 * (enemy.stats.scale || 1.0)**2);
                     const pCenterY = player.y - (40 * (player.stats.scale || 1.0)**2);
