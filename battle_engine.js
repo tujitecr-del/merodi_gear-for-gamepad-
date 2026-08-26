@@ -98,6 +98,21 @@ window.GameState = {
 window.BattleManager = {
     init: function() {
         console.log("BattleManager 初期化");
+
+        // ★ここに「データの入り口での一括変換」を置く！
+        // 敵やプレイヤーの武器名に英語（beamgun等）が混ざっていたら、ここで強制的に日本語に書き換える
+        if (window.enemy && window.enemy.stats) {
+            let ew = window.enemy.stats.weapon;
+            if (ew === "beamgun" || ew === "BeamGun") window.enemy.stats.weapon = "ビームガン";
+            if (ew === "machinegun" || ew === "MachineGun") window.enemy.stats.weapon = "マシンガン";
+            if (ew === "missile" || ew === "Missile") window.enemy.stats.weapon = "ミサイル";
+        }
+        if (window.player && window.player.stats) {
+            let pw = window.player.stats.weapon;
+            if (pw === "beamgun" || pw === "BeamGun") window.player.stats.weapon = "ビームガン";
+            if (pw === "machinegun" || pw === "MachineGun") window.player.stats.weapon = "マシンガン";
+            if (pw === "missile" || pw === "Missile") window.player.stats.weapon = "ミサイル";
+        }
     }
 };
 
@@ -786,8 +801,6 @@ window.checkBeamSwordHit = function(attacker, target) {
 };
 
 
-window.GameState = { flags: { isLoopRunning: false } };
-window.BattleManager = { init: function() { console.log("BattleManager 初期化"); } };
 
 
 // --- 2. 物理演算と攻撃処理 ---
